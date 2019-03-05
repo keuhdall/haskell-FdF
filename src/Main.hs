@@ -9,10 +9,10 @@ window :: Display
 window = InWindow "Fdf" (800, 600) (20, 20)
 
 background::Color
-background = white
+background = black
 
 drawing :: Picture
-drawing = circle 80
+drawing = color white (line [(0, 0), (0, 100)])
 
 collectStrings :: [String] -> [[String]]
 collectStrings xs = map (\x -> words x) xs
@@ -45,4 +45,5 @@ main = do
 			Just validInput -> do
 				printValues validInput
 				putStr "\n"
+				display window background drawing
 			Nothing -> putStrLn "KO"
