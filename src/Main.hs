@@ -22,7 +22,6 @@ transformInput xs
 	| all isDigit (concat (concat xs)) == False = Nothing
 	| otherwise = Just $ map (\x -> map (\y -> read y) x) xs
 
-
 validateLineSize :: [[String]] -> Bool
 validateLineSize lines
 	| length lines <= 0 = False
@@ -43,7 +42,7 @@ main = do
 	let fileContent = lines content
 	let workingContent = collectStrings fileContent in
 		case validateInput workingContent of
-			Just validInput	-> do
+			Just validInput -> do
 				printValues validInput
 				putStr "\n"
-			Nothing			-> putStrLn "KO"
+			Nothing -> putStrLn "KO"
