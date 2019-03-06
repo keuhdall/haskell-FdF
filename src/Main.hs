@@ -38,7 +38,6 @@ validateInput xs
 printValues :: [[Int]] -> IO ()
 printValues xs = let values = concat xs in mapM_ (\x -> putStr ((show x) ++ " ")) values
 
---drawGrid xs = map (\x -> map (\y -> (offset, offset + (fromIntegral y))) x) xs
 -- you can use zipWith to "map" over two lists in parallel
 -- and use [0..] to generate the sequence [0,1,2,3,.....] to use as a counter
 drawGrid :: [[Int]] -> [[Point]]
