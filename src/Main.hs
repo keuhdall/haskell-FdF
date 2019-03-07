@@ -6,7 +6,7 @@ import System.Environment
 import Data.Char
 
 offset :: Float
-offset = 20
+offset = 50
 
 window :: Display
 window = InWindow "Fdf" (800, 600) (20, 20)
@@ -14,8 +14,8 @@ window = InWindow "Fdf" (800, 600) (20, 20)
 background::Color
 background = black
 
-drawing :: Picture
-drawing = color white (line [(0, 0), (0, 100)])
+drawing :: [Path] -> Picture
+drawing paths = let pics = map (\x -> color white (line x)) paths in pictures pics -- color white (line [(0, 0), (0, 100)])
 
 collectStrings :: [String] -> [[String]]
 collectStrings xs = map (\x -> words x) xs
@@ -38,11 +38,10 @@ validateInput xs
 printValues :: [[Int]] -> IO ()
 printValues xs = let values = concat xs in mapM_ (\x -> putStr ((show x) ++ " ")) values
 
--- you can use zipWith to "map" over two lists in parallel
--- and use [0..] to generate the sequence [0,1,2,3,.....] to use as a counter
 drawGrid :: [[Int]] -> [[Point]]
-drawGrid yss = map (\ys -> zipWith valueToGrid xs ys) yss where
-	valueToGrid x y = (offset + 20*x, offset + (fromIntegral y))
+drawGrid yss = zipWith someFunc xs yss where
+	valueToGrid x y z = (offset*x, y+z)
+	someFunc x' y' = zipWith3 valueToGrid xs (map (\y'' -> fromIntegral y'') y') (cycle [offset*x'])
 	xs = map (\x -> fromIntegral x) [0..]
 
 printPoints :: [[Point]] -> IO ()
@@ -60,5 +59,5 @@ main = do
 				putStr "\n"
 				printPoints $ drawGrid validInput
 				putStr "\n"
-				display window background drawing
+				display window background (drawing (drawGrid validInput))
 			Nothing -> putStrLn "KO"
