@@ -15,10 +15,7 @@ background::Color
 background = black
 
 drawing :: [Path] -> Picture
-drawing paths = let pics = map (\x -> color white (line x)) paths in pictures pics -- color white (line [(0, 0), (0, 100)])
-
-collectStrings :: [String] -> [[String]]
-collectStrings xs = map (\x -> words x) xs
+drawing paths = let pics = map (\x -> color white (line x)) paths in pictures pics
 
 transformInput :: [[String]] -> Maybe [[Int]]
 transformInput xs
@@ -39,9 +36,8 @@ printValues :: [[Int]] -> IO ()
 printValues xs = let values = concat xs in mapM_ (\x -> putStr ((show x) ++ " ")) values
 
 drawGrid :: [[Int]] -> [[Point]]
-drawGrid yss = zipWith disassemble xs yss where
-	valueToGrid x y z = (offset*x, y+z)
-	disassemble x' y' = zipWith3 valueToGrid xs (map (\y'' -> fromIntegral y'') y') (cycle [offset*x'])
+drawGrid yss = zipWith valueToGrid xs yss where
+	valueToGrid x y = zipWith3 (\k l m -> (offset*k, l+m)) xs (map (\y' -> fromIntegral y') y) (cycle [offset*x])
 	xs = map (\x -> fromIntegral x) [0..]
 
 printPoints :: [[Point]] -> IO ()
@@ -52,7 +48,7 @@ main = do
 	args <- getArgs
 	content <- readFile (args !! 0)
 	let fileContent = lines content
-	let workingContent = collectStrings fileContent in
+	let workingContent = map (\x -> words x) fileContent in
 		case validateInput workingContent of
 			Just validInput -> do
 				printValues validInput
