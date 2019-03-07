@@ -39,9 +39,9 @@ printValues :: [[Int]] -> IO ()
 printValues xs = let values = concat xs in mapM_ (\x -> putStr ((show x) ++ " ")) values
 
 drawGrid :: [[Int]] -> [[Point]]
-drawGrid yss = zipWith someFunc xs yss where
+drawGrid yss = zipWith disassemble xs yss where
 	valueToGrid x y z = (offset*x, y+z)
-	someFunc x' y' = zipWith3 valueToGrid xs (map (\y'' -> fromIntegral y'') y') (cycle [offset*x'])
+	disassemble x' y' = zipWith3 valueToGrid xs (map (\y'' -> fromIntegral y'') y') (cycle [offset*x'])
 	xs = map (\x -> fromIntegral x) [0..]
 
 printPoints :: [[Point]] -> IO ()
