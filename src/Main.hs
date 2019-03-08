@@ -15,7 +15,7 @@ background::Color
 background = black
 
 drawing :: [Path] -> [Path] -> Picture
-drawing hPath vPath = let pics = map (\x -> color white (line x)) (vPath ++ hPath) in pictures pics
+drawing hPath vPath = let pics = map (\x -> color white (line x)) (hPath ++ vPath) in pictures pics
 
 transformInput :: [[String]] -> Maybe [[Int]]
 transformInput xs
@@ -36,12 +36,13 @@ printValues :: [[Int]] -> IO ()
 printValues xs = let values = concat xs in mapM_ (\x -> putStr ((show x) ++ " ")) values
 
 hLines :: [[Int]] -> [[Point]]
-hLines yss = zipWith valueToGrid xs yss where
+hLines yss = zipWith valueToGrid xs $ reverse yss where
 	valueToGrid x y = zipWith3 (\k l m -> (offset*k, l+m)) xs (map (\y' -> fromIntegral y') y) (cycle [offset*x])
 	xs = map (\x -> fromIntegral x) [0..]
 
 vLines :: [[Point]] -> [[Point]]
-vLines xss = vLines' (length xss) xss [] where
+vLines xss = vLines' len xss [] where
+	len = (length (xss !! 0)) - 1
 	vLines' n xss acc
 		| n >= 0 = vLines' (n-1) xss ((map (\xs -> (xs !! n)) xss) : acc)
 		| otherwise = acc
@@ -56,9 +57,5 @@ main = do
 	let fileContent = lines content
 	let workingContent = map (\x -> words x) fileContent in
 		case validateInput workingContent of
-			Just validInput -> do
-				printPoints $ vLines (hLines validInput)
-				mapM_ (\x -> putStrLn (show (length x))) (vLines (hLines validInput))
-				putStr "\n"
-				display window background (drawing (hLines validInput) (vLines (hLines validInput)))
+			Just validInput -> display window background (drawing (hLines validInput) (vLines (hLines validInput)))
 			Nothing -> putStrLn "KO"
