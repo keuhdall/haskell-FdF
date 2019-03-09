@@ -5,8 +5,8 @@ import System.IO
 import System.Environment
 import Data.Char
 
-offset :: Float
-offset = 50
+tile :: Float
+tile = 10
 
 window :: Display
 window = InWindow "Fdf" (800, 600) (20, 20)
@@ -34,7 +34,7 @@ validateInput xs
 
 hLines :: [[Int]] -> [[Point]]
 hLines yss = zipWith valueToGrid xs $ reverse yss where
-	valueToGrid x y = zipWith3 (\k l m -> (offset*k, l+m)) xs (map (\y' -> fromIntegral y') y) (cycle [offset*x])
+	valueToGrid x y = zipWith3 (\k l m -> (tile*k, l+m)) xs (map (\y' -> fromIntegral y') y) (cycle [tile*x])
 	xs = map (\x -> fromIntegral x) [0..]
 
 vLines :: [[Point]] -> [[Point]]
@@ -44,6 +44,9 @@ vLines xss = vLines' len xss [] where
 		| n >= 0 = vLines' (n-1) xss ((map (\xs -> (xs !! n)) xss) : acc)
 		| otherwise = acc
 
+applyIso :: [[Point]] -> [[Point]]
+applyIso xss = map (\xs -> map (\x -> ((fst x - snd x)*2, (fst x + snd x))) xs) xss
+
 main :: IO ()
 main = do
 	args <- getArgs
@@ -52,6 +55,6 @@ main = do
 	let workingContent = map (\x -> words x) fileContent in
 		case validateInput workingContent of
 			Just validInput -> do
-				let points = (hLines validInput) ++ (vLines $ hLines validInput)
+				let points = applyIso $ (hLines validInput) ++ (vLines $ hLines validInput)
 				display window background $ drawing points
 			Nothing -> putStrLn "KO"
