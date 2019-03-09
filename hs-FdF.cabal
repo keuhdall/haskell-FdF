@@ -17,7 +17,7 @@ cabal-version:       >=1.10
 
 executable hs-FdF
   main-is:             Main.hs
-  -- other-modules:
+  other-modules:       Draw, Checker
   -- other-extensions:
   build-depends:       base >=4.11 && <4.12, gloss >=1.13.0
   hs-source-dirs:      src
