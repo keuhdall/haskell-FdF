@@ -3,7 +3,6 @@ module Main where
 import Graphics.Gloss
 import System.IO
 import System.Environment
-import Data.Char
 import Draw
 import Checker
 
