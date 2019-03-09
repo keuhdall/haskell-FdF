@@ -14,8 +14,8 @@ window = InWindow "Fdf" (800, 600) (20, 20)
 background::Color
 background = black
 
-drawing :: [Path] -> [Path] -> Picture
-drawing hPath vPath = let pics = map (\x -> color white (line x)) (hPath ++ vPath) in pictures pics
+drawing :: [Path] -> Picture
+drawing path = let pics = map (\x -> color white (line x)) path in pictures pics
 
 transformInput :: [[String]] -> Maybe [[Int]]
 transformInput xs
@@ -32,9 +32,6 @@ validateInput xs
 	| validateLineSize xs == False = Nothing
 	| otherwise = transformInput xs
 
-printValues :: [[Int]] -> IO ()
-printValues xs = let values = concat xs in mapM_ (\x -> putStr ((show x) ++ " ")) values
-
 hLines :: [[Int]] -> [[Point]]
 hLines yss = zipWith valueToGrid xs $ reverse yss where
 	valueToGrid x y = zipWith3 (\k l m -> (offset*k, l+m)) xs (map (\y' -> fromIntegral y') y) (cycle [offset*x])
@@ -47,9 +44,6 @@ vLines xss = vLines' len xss [] where
 		| n >= 0 = vLines' (n-1) xss ((map (\xs -> (xs !! n)) xss) : acc)
 		| otherwise = acc
 
-printPoints :: [[Point]] -> IO ()
-printPoints xs = let values = concat xs in mapM_ (\x -> putStr ("(" ++ (show (fst x)) ++ ", " ++ (show (snd x)) ++ ")" ++ " ")) values
-
 main :: IO ()
 main = do
 	args <- getArgs
@@ -57,5 +51,7 @@ main = do
 	let fileContent = lines content
 	let workingContent = map (\x -> words x) fileContent in
 		case validateInput workingContent of
-			Just validInput -> display window background (drawing (hLines validInput) (vLines (hLines validInput)))
+			Just validInput -> do
+				let points = (hLines validInput) ++ (vLines $ hLines validInput)
+				display window background $ drawing points
 			Nothing -> putStrLn "KO"
