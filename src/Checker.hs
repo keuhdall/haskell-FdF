@@ -1,10 +1,13 @@
-module Checker where
+module Checker (validateInput) where
 	import Data.Char
 
 	transformInput :: [[String]] -> Maybe [[Int]]
 	transformInput xs
-		| all isDigit (concat (concat xs)) == False = Nothing
-		| otherwise = Just $ map (\x -> map (\y -> read y) x) xs
+		| all isNumber (concat xs) == False = Nothing
+		| otherwise = Just $ map (\x -> map (\y -> read y) x) xs where
+			isNumber str = case (reads str) :: [(Double, String)] of
+				[(_, "")]	-> True
+				_			-> False
 
 	validateLineSize :: [[String]] -> Bool
 	validateLineSize lines
