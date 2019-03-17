@@ -20,6 +20,8 @@ main = do
 	let workingContent = map (\x -> words x) fileContent in
 		case validateInput workingContent of
 			Just validInput -> do
-				let points = applyIso $ (hLines validInput) ++ (vLines $ hLines validInput)
-				display window background $ draw points
+				let lineLength = length $ validInput !! 0
+				let isoGrid = applyIso $ getGrid lineLength (length $ concat validInput)
+				let points = applyHeight 5 isoGrid (concat $ reverse validInput)
+				display window background $ draw $ (hLines lineLength points) ++ (vLines $ hLines lineLength points)
 			Nothing -> putStrLn "KO"
