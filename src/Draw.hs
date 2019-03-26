@@ -1,5 +1,6 @@
 module Draw where
 	import Graphics.Gloss
+	import Data.List
 
 	tile :: Float
 	tile = 10
@@ -17,11 +18,7 @@ module Draw where
 	hLines n xs = splitEvery n xs
 
 	vLines :: [[Point]] -> [[Point]]
-	vLines xss = vLines' len xss [] where
-		len = (length (xss !! 0)) - 1
-		vLines' n xss acc
-			| n >= 0 = vLines' (n-1) xss ((map (\xs -> (xs !! n)) xss) : acc)
-			| otherwise = acc
+	vLines xss = transpose xss
 
 	applyHeight :: Int -> [Point] -> [Int] -> [Point]
 	applyHeight n xs ys = zipWith (\x y -> (fst x, snd x + (fromIntegral y*5))) xs ys
