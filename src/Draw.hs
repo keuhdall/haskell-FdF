@@ -7,7 +7,7 @@ module Draw where
 
 	getGrid :: Int -> Int -> [Point]
 	getGrid n m = zipWith (\a b -> (a, b)) xs ys where
-		xs = map (\x -> fromIntegral (x `mod` n * 10)) [0..m]
+		xs = map (\x -> fromIntegral $ x `mod` n * 10) [0..m]
 		ys = map (\y' -> fromIntegral y') $ map (\y -> (floor . fromIntegral) (y `div` n * 10)) [0..m-1]
 
 	splitEvery :: Int -> [a] -> [[a]]
@@ -27,4 +27,4 @@ module Draw where
 	applyIso xs = map (\x -> ((fst x - snd x)*tile/2, (fst x + snd x)*tile/2)) xs
 
 	draw :: [Path] -> Picture
-	draw path = let pics = map (\x -> color white (line x)) path in pictures pics
+	draw path = let pics = map (\x -> color white $ line x) path in pictures pics
