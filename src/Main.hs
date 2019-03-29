@@ -21,7 +21,7 @@ main = do
 		case validateInput workingContent of
 			Just validInput -> do
 				let lineLength = length $ validInput !! 0
-				let isoGrid = applyIso $ getGrid lineLength (length $ concat validInput)
-				let points = applyHeight 5 isoGrid (concat $ reverse validInput)
+				let isoGrid = applyIso $ getGrid lineLength $ length $ concat validInput
+				let points = applyHeight 5 isoGrid $ concat $ reverse validInput
 				display window background $ draw $ (hLines lineLength points) ++ (vLines $ hLines lineLength points)
 			Nothing -> putStrLn "KO"
