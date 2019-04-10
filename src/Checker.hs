@@ -12,7 +12,7 @@ module Checker (validateInput) where
 	validateLineSize :: [[String]] -> Bool
 	validateLineSize lines
 		| length lines <= 0 = False
-		| otherwise = let lineSize = length (lines !! 0) in (length lines) == length (filter (\x -> length x == lineSize) lines)
+		| otherwise = let lineSize = length (lines !! 0) in (length lines) == (length $ filter (\x -> length x == lineSize) lines)
 
 	validateInput :: [[String]] -> Maybe [[Int]]
 	validateInput xs
