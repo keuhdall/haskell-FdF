@@ -6,9 +6,9 @@ module Draw where
 	tile = 10
 
 	getGrid :: Int -> Int -> [Point]
-	getGrid n m = zipWith (\a b -> (a, b)) xs ys where
+	getGrid n m = zip xs ys where
 		xs = map (\x -> fromIntegral $ x `mod` n * 10) [0..m]
-		ys = map (\y' -> fromIntegral y') $ map (\y -> (floor . fromIntegral) (y `div` n * 10)) [0..m-1]
+		ys = map fromIntegral $ map (\y -> (floor . fromIntegral) $ y `div` n * 10) [0..m-1]
 
 	splitEvery :: Int -> [a] -> [[a]]
 	splitEvery _ [] = []

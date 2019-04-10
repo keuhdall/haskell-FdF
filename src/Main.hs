@@ -9,7 +9,7 @@ import Checker
 window :: Display
 window = InWindow "Fdf" (800, 600) (20, 20)
 
-background::Color
+background :: Color
 background = black
 
 main :: IO ()
@@ -17,7 +17,7 @@ main = do
 	args <- getArgs
 	content <- readFile (args !! 0)
 	let fileContent = lines content
-	let workingContent = map (\x -> words x) fileContent in
+	let workingContent = map words fileContent in
 		case validateInput workingContent of
 			Just validInput -> do
 				let lineLength = length $ validInput !! 0

@@ -4,7 +4,7 @@ module Checker (validateInput) where
 	transformInput :: [[String]] -> Maybe [[Int]]
 	transformInput xs
 		| all isNumber (concat xs) == False = Nothing
-		| otherwise = Just $ map (\x -> map (\y -> read y) x) xs where
+		| otherwise = Just $ map (\x -> map read x) xs where
 			isNumber str = case (reads str) :: [(Double, String)] of
 				[(_, "")]	-> True
 				_			-> False
