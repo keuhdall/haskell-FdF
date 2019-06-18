@@ -4,7 +4,7 @@ module Checker (validateInput) where
 	transformInput :: [[String]] -> Maybe [[Int]]
 	transformInput xs
 		| all isNumber (concat xs) == False = Nothing
-		| otherwise = Just $ map (\x -> map (\y -> read y) x) xs where
+		| otherwise = Just $ map (map read) xs where
 			isNumber str = case (reads str) :: [(Double, String)] of
 				[(_, "")]	-> True
 				_			-> False
@@ -12,7 +12,7 @@ module Checker (validateInput) where
 	validateLineSize :: [[String]] -> Bool
 	validateLineSize lines
 		| length lines <= 0 = False
-		| otherwise = let lineSize = length (lines !! 0) in (length lines) == length (filter (\x -> length x == lineSize) lines)
+		| otherwise = let lineSize = length (lines !! 0) in (length lines) == (length $ filter (\x -> length x == lineSize) lines)
 
 	validateInput :: [[String]] -> Maybe [[Int]]
 	validateInput xs
