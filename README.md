@@ -13,3 +13,7 @@ Reimplementing the FdF project from 42 in Haskell
 | **R**                     | Reset        |
 | **Esc**                   | Quit         |
 
+---
+
+## Render example
+![render](./screenshots/42.png)
