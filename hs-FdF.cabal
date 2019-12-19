@@ -16,6 +16,10 @@ extra-source-files:  ChangeLog.md, README.md
 cabal-version:       >=1.10
 
 executable hs-FdF
+  ghc-options:
+    -threaded
+    -O3
+    -Wall
   main-is:             Main.hs
   other-modules:       Draw, Checker
   -- other-extensions:

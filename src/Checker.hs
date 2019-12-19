@@ -1,20 +1,14 @@
 module Checker (validateInput) where
-	import Data.Char
+  import Data.Char (isNumber)
 
-	transformInput :: [[String]] -> Maybe [[Int]]
-	transformInput xs
-		| all isNumber (concat xs) == False = Nothing
-		| otherwise = Just $ map (map read) xs where
-			isNumber str = case (reads str) :: [(Double, String)] of
-				[(_, "")]	-> True
-				_			-> False
+  transformInput :: [[String]] -> Maybe [[Int]]
+  transformInput xs
+    | all isNumber (concat . concat $ xs) == False = Nothing
+    | otherwise = Just $ (map read) <$> xs where
 
-	validateLineSize :: [[String]] -> Bool
-	validateLineSize lines
-		| length lines <= 0 = False
-		| otherwise = let lineSize = length (lines !! 0) in (length lines) == (length $ filter (\x -> length x == lineSize) lines)
+  validateLineSize :: [[String]] -> Bool
+  validateLineSize lns = let lineSize = length (lns !! 0) in
+    if null lns then False else length lns == (length $ filter ((\x -> length x == lineSize)) lns)
 
-	validateInput :: [[String]] -> Maybe [[Int]]
-	validateInput xs
-		| validateLineSize xs == False = Nothing
-		| otherwise = transformInput xs
+  validateInput :: [[String]] -> Maybe [[Int]]
+  validateInput xs = if validateLineSize xs == False then Nothing else transformInput xs
