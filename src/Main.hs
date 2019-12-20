@@ -26,13 +26,13 @@ checkArgs xs = if null xs then printHelp >> exitSuccess else pure xs
 getComputedGrid :: [[Int]] -> [[Point]]
 getComputedGrid xss = pointLines ++ transpose pointLines where
   size = length $ xss !! 0
-  points = applyHeight tileHeight (applyIso . getGrid size . length $ concat xss) . concat $ reverse xss
+  points = (applyHeight tileHeight . applyIso . getGrid size . length $ concat xss) . concat $ reverse xss
   pointLines = splitEvery size points
 
 main :: IO ()
 main = do
   args <- checkArgs =<< getArgs
-  content <- readFile (args !! 0)
+  content <- readFile $ args !! 0
   let fileContent = lines content
   let workingContent = map words fileContent
   case getComputedGrid <$> validateInput workingContent of
