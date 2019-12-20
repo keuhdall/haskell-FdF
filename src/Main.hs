@@ -23,8 +23,8 @@ printHelp = putStrLn $ "Please provide at least one argument.\n \
 checkArgs :: [String] -> IO [String]
 checkArgs xs = if null xs then printHelp >> exitSuccess else pure xs
 
-getComputedGrid :: [[Int]] -> Maybe [[Point]]
-getComputedGrid xss = Just $ pointLines ++ transpose pointLines where
+getComputedGrid :: [[Int]] -> [[Point]]
+getComputedGrid xss = pointLines ++ transpose pointLines where
   size = length $ xss !! 0
   points = applyHeight tileHeight (applyIso . getGrid size . length $ concat xss) . concat $ reverse xss
   pointLines = splitEvery size points
@@ -35,6 +35,6 @@ main = do
   content <- readFile (args !! 0)
   let fileContent = lines content
   let workingContent = map words fileContent
-  case validateInput workingContent >>= getComputedGrid of
+  case getComputedGrid <$> validateInput workingContent of
     Just (points) -> display window background $ draw points
     Nothing -> putStrLn "Invalid input, please check your file!"
