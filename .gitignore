@@ -1,5 +1,8 @@
+.stack-work/
 /dist
 /dist-newstyle
 .ghc.*
 **/*.hi
 **/*.o
+*.cabal
+stack.yaml.lock
