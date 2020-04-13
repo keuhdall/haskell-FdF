@@ -4,5 +4,5 @@
 .ghc.*
 **/*.hi
 **/*.o
-*.cabal
+**/*.cabal
 stack.yaml.lock
