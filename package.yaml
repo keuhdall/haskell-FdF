@@ -1,0 +1,52 @@
+name:                hs-fdf
+version:             0.1.0.0
+github:              "keuhdall/hs-fdf"
+license:             BSD3
+author:              "Léonard Marques"
+maintainer:          "keuhdall@gmail.com"
+copyright:           "2020 Léonard Marques"
+
+extra-source-files:
+- README.md
+- ChangeLog.md
+
+# Metadata used when publishing your package
+# synopsis:            Short description of your package
+# category:            Web
+
+# To avoid duplicated efforts in documentation and dealing with the
+# complications of embedding Haddock markup inside cabal files, it is
+# common to point users to the README.md file.
+description:         Please see the README on GitHub at <https://github.com/keuhdall/hs-fdf#readme>
+
+dependencies:
+- base >= 4.7 && < 5
+- gloss >= 1.13 && < 1.14
+
+library:
+  source-dirs: src
+
+executables:
+  hs-fdf-exe:
+    main:                Main.hs
+    source-dirs:         app
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    - -O3
+    - -Wall
+    - -Wextra
+    dependencies:
+    - hs-fdf
+
+tests:
+  hs-fdf-test:
+    main:                Spec.hs
+    source-dirs:         test
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - hs-fdf
